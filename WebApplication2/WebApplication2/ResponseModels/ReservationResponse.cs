@@ -6,4 +6,5 @@ public class ReservationResponse
         public int IdClient { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
+        
 }

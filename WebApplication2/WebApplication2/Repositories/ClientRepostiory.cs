@@ -28,6 +28,33 @@ namespace WebApplication2.Repository
             return reservations;
         }
 
+        public async Task<Reservation> GetClientWithoutReservation(int clientId)
+        {
+            var reservationn = await _sailboatDbContext.Reservations.FirstOrDefaultAsync(e =>
+                e.IdClient == clientId && e.Fulfilled == false && e.CancelReaeson == " ");
+            return reservationn;
+        }
+
+        public async Task<int> GetNumOfBoats(int idBoatStandard)
+        {
+            var boatCount = await _sailboatDbContext.Sailboats.Where(e => e.IdBoatStandard == idBoatStandard)
+                .CountAsync();
+                
+            return boatCount;
+        }
+
+        public async Task<BoatStandard> GetBoatStandard(int boatStandardId)
+        {
+            var boatStandard =
+                await _sailboatDbContext.BoatStandards.FirstOrDefaultAsync(e => e.IdBoatStandard == boatStandardId);
+            return boatStandard;
+        }
+        public async Task<Client> GetClientById(int id)
+        {
+            var client = await _sailboatDbContext.Clients.FirstOrDefaultAsync(e=>e.IdClient==id);
+            return client;
+        }
+
         // Pobierz dane klienta wraz z rezerwacjami
         public async Task<ClientWithReservationsResponse> GetClientWithReservations(int clientId)
         {
@@ -61,5 +88,11 @@ namespace WebApplication2.Repository
         {
             await _sailboatDbContext.SaveChangesAsync();
         }
+
+        public async Task AddReservation(Reservation reservation)
+        {
+            await _sailboatDbContext.Reservations.AddAsync(reservation);
+        }
+        
     }
 }

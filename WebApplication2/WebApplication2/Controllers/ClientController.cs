@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApplication2.RequestModels;
 using WebApplication2.Services;
 
 namespace WebApplication2.Controllers;
@@ -23,5 +24,12 @@ public class ClientController : ControllerBase
             return NotFound();
         }
         return Ok(client);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddReservation(ReservationRequestModel reservationRequestModel)
+    {
+        var id = await _clientService.AddReservation(reservationRequestModel);
+        return Ok("reservation was added with id: " + id);
     }
 }
